@@ -216,7 +216,7 @@
 
   <div class="quiz-section" id="quiz-area">
     <div class="quiz-title">🧩 Le Jeu du Rébus d'Anniversaire</div>
-    <p style="font-size: 0.85rem; color: #4a4a4a; margin-bottom: 15px;">Réponds correctement à ces 4 questions pour décoder le message caché !</p>
+    <p style="font-size: 0.85rem; color: #4a4a4a; margin-bottom: 15px;">Réponds correctement à ces 5 questions pour décoder le message caché !</p>
     
     <div class="question-box">
       <p>1. Quelle boisson chaude anglaise infuse dans une tasse ?</p>
@@ -225,27 +225,27 @@
     </div>
 
     <div class="question-box">
-      <p>2. Comment dit-on "formidable" ou "exceptionnelle" au féminin ? ?</p>
+      <p>2. Comment dit-on "formidable" ou "exceptionnelle" au féminin ?</p>
       <p class="rebus-hint">(Indice : commence par "géni...")</p>
       <input type="text" id="q2" class="quiz-input" placeholder="Au féminin">
     </div>
 
     <div class="question-box">
-      <p>3. Comment appelle on cet objet "🎀" ?</p>
-      <p class="rebus-hint"></p>
+      <p>3. Comment appelle-t-on cet objet "🎀" ?</p>
+      <p class="rebus-hint">(Indice phonétique : donne le son "ne")</p>
       <input type="text" id="q3" class="quiz-input" placeholder="Le petit mot">
     </div>
 
     <div class="question-box">
-      <p>4. Quel est la contraire exacte de sur rien  ?</p>
-      <p class="rebus-hint">(Indice phonétique : en un seul mot)</p>
+      <p>4. Quel est le contraire exact de sur rien ?</p>
+      <p class="rebus-hint">(Indice : donne le mot "surtout")</p>
       <input type="text" id="text-surtout" class="quiz-input" placeholder="Le contraire de partout">
     </div>
 
-   <div class="question-box">
-      <p>4. Complète la ref (y'a ___ de panneaux ?</p>
-      <p class="rebus-hint">(Indice : mot en 3 lettres)</p>
-      <input type="text" id="text-surtout" class="quiz-input" placeholder="Le contraire de partout">
+    <div class="question-box">
+      <p>5. Complète la ref (y'a ___ de panneaux ?)</p>
+      <p class="rebus-hint">(Indice : donne le mot "pas")</p>
+      <input type="text" id="text-pas" class="quiz-input" placeholder="Mot en 3 lettres">
     </div>
 
     <button class="btn" onclick="checkRebus()">Déchiffrer le rébus</button>
@@ -310,15 +310,20 @@ function checkRebus() {
   const r2 = document.getElementById('q2').value.trim().toLowerCase();
   const r3 = document.getElementById('q3').value.trim().toLowerCase();
   const r4 = document.getElementById('text-surtout').value.trim().toLowerCase();
+  const r5 = document.getElementById('text-pas').value.trim().toLowerCase();
   const errorText = document.getElementById('error-text');
 
-  // Mots attendus : thé/the, géniale/geniale, ne, surtout
+  // Conditions de validation
   const cond1 = (r1 === "thé" || r1 === "the");
   const cond2 = (r2 === "géniale" || r2 === "geniale");
-  const cond3 = (r3 === "ne");
+  
+  // Accepte toutes les orthographes demandées pour le nœud
+  const cond3 = (r3 === "ne" || r3 === "noeud" || r3 === "nœud" || r3 === "noeuds" || r3 === "nœuds" || r3 === "neux" || r3 === "neuds");
+  
   const cond4 = (r4 === "surtout");
+  const cond5 = (r5 === "pas");
 
-  if (cond1 && cond2 && cond3 && cond4) {
+  if (cond1 && cond2 && cond3 && cond4 && cond5) {
     errorText.style.display = "none";
     document.getElementById('quiz-area').style.display = "none"; 
     document.getElementById('bonus-area').style.display = "block"; 

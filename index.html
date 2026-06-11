@@ -67,7 +67,27 @@
 
   .message strong { color: #ff477e; }
 
-  /* 🎉 Section Quiz */
+  /* ── Gâteau Interactif ── */
+  .cake-box {
+    margin: 20px 0;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .cake-box:hover {
+    transform: scale(1.05);
+  }
+  .cake-img {
+    max-width: 180px;
+    height: auto;
+  }
+  .hint-text {
+    font-size: 0.9rem;
+    color: #ff758f;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  /* ── Section Quiz ── */
   .quiz-section {
     background: #fff0f3;
     border-radius: 16px;
@@ -82,9 +102,6 @@
     color: #ff477e;
     font-weight: 700;
     margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
   }
 
   .question-box {
@@ -129,19 +146,19 @@
   }
 
   .btn:hover { background: #ff5c8a; transform: translateY(-2px); }
-  .btn:active { transform: translateY(0); }
 
-  /* 💡 Box Vêtements Cachée */
+  /* ── Message Vêtements Caché ── */
   .bonus-box {
     display: none;
-    background: #e8fff5;
-    border: 2px solid #52b788;
-    color: #2d6a4f;
+    background: #fff0f3;
+    border: 2px solid #ff477e;
+    color: #4a4a4a;
     padding: 20px;
     border-radius: 16px;
     margin-top: 20px;
     font-size: 1rem;
     line-height: 1.6;
+    text-align: left;
     animation: popIn 0.5s ease forwards;
   }
 
@@ -164,39 +181,45 @@
 <canvas id="confetti-canvas"></canvas>
 
 <div class="card">
-  <h1>Joyeux Anniversaire ! 🎉</h1>
-  <div class="age">POUR ELYNE 🌸</div>
+  <p style="color: #ff758f; font-weight: 600; margin-bottom: 5px;">✨ Aujourd'hui c'est ton jour ✨</p>
+  <h1>Elyne</h1>
+  <div class="age">Joyeux 14ème anniversaire !</div>
+
+  <div class="cake-box" onclick="triggerConfetti()">
+    <div style="font-size: 80px; margin-bottom: 10px;">🎂</div>
+    <p class="hint-text">Clique sur le gâteau pour souffler les bougies !</p>
+  </div>
 
   <div class="message">
-    <p>Coucou <strong>Elyne</strong>,<br><br>
-    Je voulais absolument marquer le coup pour ton anniversaire d'une manière un peu originale ! Quoi de mieux qu'un petit coin du web rien que pour toi ? 😄<br><br>
-    Je te souhaite un super anniversaire. Profite à fond de ta journée, fais-toi gâter et passe un super moment avec tes proches. Reste comme tu es ! ✨</p>
+    <p>Salut <strong>Elyne</strong> ! J'pouvais pas laisser passer ton anniv sans marquer le coup — t'as quand même le droit à ton propre site web, c'est pas rien ! 😂<br><br>
+    Sérieusement, bonne fête — que tes <strong>14 ans</strong> soient aussi bien que toi. Profite à fond de ta journée ! 🎉🌸</p>
   </div>
 
   <div class="quiz-section" id="quiz-area">
     <div class="quiz-title">🧩 Le mini-test d'anniversaire</div>
     
     <div class="question-box">
-      <p>1. Quel jour exact (le numéro) est-on aujourd'hui ?</p>
-      <input type="number" id="q1" class="quiz-input" placeholder="Ex: 12">
+      <p>1. Quel jour exact (le numéro du jour) fête-t-on ton anniversaire ?</p>
+      <input type="number" id="q1" class="quiz-input" placeholder="Ex: 11">
     </div>
 
     <div class="question-box">
-      <p>2. Complète le titre de la carte : "Joyeux Anniversaire..." (En 5 lettres)</p>
+      <p>2. Écris ton prénom en toutes lettres pour confirmer ton identité :</p>
       <input type="text" id="q2" class="quiz-input" placeholder="Ton prénom">
     </div>
 
     <div class="question-box">
-      <p>3. Quel est l'élément indispensable sur un vrai gâteau pour faire un vœu ? (Au pluriel)</p>
-      <input type="text" id="q3" class="quiz-input" placeholder="Ex: bonbons, bougies...">
+      <p>3. Qu'est-ce qu'on souffle sur le gâteau pour faire un vœu ? (Au pluriel)</p>
+      <input type="text" id="q3" class="quiz-input" placeholder="Ex: bougies">
     </div>
 
     <button class="btn" onclick="checkQuiz()">Valider mes réponses</button>
-    <p class="error-msg" id="error-text">Oups, il y a une petite erreur dans les réponses, réessaie ! 🤔</p>
+    <p class="error-msg" id="error-text">Oups, il y a une petite erreur dans tes réponses, réessaie ! 🤔</p>
   </div>
 
   <div class="bonus-box" id="bonus-area">
-     Je me doute bien que des vêtements auraient été mieux que ça, mais j'avais pas le temps (et ce dont j'ai besoin) pour t'en faire cadeau... Alors j'espère que cette petite carte te plaît quand même ! 😅🎁
+    <p><strong>Petite note bonus :</strong><br>
+    Je me doutes bien que des vêtements auraient été mieux que ça mais j'avais pas le temps ou et ce dont j'ai besoin pour t'en faire cadeau 😅. J'espère que cette petite surprise sur mesure te plaît quand même !</p>
   </div>
 </div>
 
@@ -210,13 +233,13 @@ resize(); window.addEventListener('resize', resize);
 
 const COLORS = ['#ff477e', '#ff758f', '#ffccd5', '#ffb3c1', '#34d399', '#fbbf24'];
 
-function spawnConfetti() {
-  for (let i = 0; i < 80; i++) {
+function triggerConfetti() {
+  for (let i = 0; i < 100; i++) {
     particles.push({
-      x: Math.random() * canvas.width,
-      y: -20,
-      vx: (Math.random() - 0.5) * 4,
-      vy: Math.random() * 4 + 2,
+      x: canvas.width / 2 + (Math.random() - 0.5) * 200,
+      y: canvas.height * 0.4,
+      vx: (Math.random() - 0.5) * 6,
+      vy: (Math.random() - 0.8) * 8,
       color: COLORS[Math.floor(Math.random() * COLORS.length)],
       size: Math.random() * 6 + 4,
       opacity: 1
@@ -233,28 +256,28 @@ function draw() {
     ctx.fillStyle = p.color;
     ctx.fillRect(p.x, p.y, p.size, p.size);
     ctx.restore();
-    p.x += p.vx; p.y += p.vy; p.opacity -= 0.003;
+    p.x += p.vx; p.y += p.vy; p.vy += 0.1; p.opacity -= 0.005;
   }
   requestAnimationFrame(draw);
 }
 draw();
 
-// Lancer des confettis dès le début
-setTimeout(spawnConfetti, 500);
+// Un petit lancer automatique au chargement
+setTimeout(triggerConfetti, 500);
 
-/* ── Vérification du Questionnaire ── */
+/* ── Gestion du Quiz ── */
 function checkQuiz() {
   const r1 = document.getElementById('q1').value.trim();
   const r2 = document.getElementById('q2').value.trim().toLowerCase();
   const r3 = document.getElementById('q3').value.trim().toLowerCase();
   const errorText = document.getElementById('error-text');
 
-  // Réponses attendues (on accepte "elyne" avec ou sans majuscule, et "bougies")
-  if (r1 !== "" && (r2 === "elyne") && (r3 === "bougies" || r3 === "bougie")) {
+  // Ajuste ici le numéro du jour si ce n'est pas le 11
+  if (r1 === "11" && r2 === "elyne" && (r3 === "bougies" || r3 === "bougie")) {
     errorText.style.display = "none";
-    document.getElementById('quiz-area').style.display = "none"; // Cache le quiz
-    document.getElementById('bonus-area').style.display = "block"; // Affiche ta phrase
-    spawnConfetti(); // Relance des confettis pour fêter ça
+    document.getElementById('quiz-area').style.display = "none"; // Cache le questionnaire
+    document.getElementById('bonus-area').style.display = "block"; // Affiche ton texte
+    triggerConfetti(); // Giga pluie de confettis pour célébrer !
   } else {
     errorText.style.display = "block";
   }

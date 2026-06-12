@@ -571,11 +571,65 @@ function showSecretPanel() {
   const existing = document.getElementById('secret-panel');
   if (existing) { existing.remove(); return; }
 
-  // Chargement depuis Google Sheets via Apps Script
   if (GOOGLE_SCRIPT_URL === "COLLE_TON_URL_ICI") {
     alert('⚙️ Configure d\'abord l\'URL Google Script !');
     return;
   }
+
+  const panel = document.createElement('div');
+  panel.id = 'secret-panel';
+  panel.style.cssText = `
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:white; border:3px solid #ff477e; border-radius:20px;
+    padding:30px; max-width:480px; width:90%; z-index:9999;
+    box-shadow:0 20px 60px rgba(255,71,126,0.3);
+    font-family:'Poppins',sans-serif; max-height:80vh; overflow-y:auto;
+    text-align:center;
+  `;
+  panel.innerHTML = `
+    <p style="color:#ff477e;font-weight:700;font-size:1rem;margin-bottom:15px;">🔐 Réponses d'Elyne</p>
+    <p id="secret-loading" style="color:#4a4a4a;font-size:0.9rem;">Chargement… ⏳</p>
+    <div id="secret-content" style="display:none;text-align:left;"></div>
+    <button onclick="document.getElementById('secret-panel').remove()" style="
+      margin-top:15px; background:#ff477e; color:white; border:none;
+      padding:10px 20px; border-radius:50px; cursor:pointer;
+      font-family:'Poppins',sans-serif; font-weight:600; width:100%;
+    ">Fermer 🔒</button>
+  `;
+  document.body.appendChild(panel);
+
+  // JSONP pour contourner le CORS
+  const callbackName = 'easterEggCallback_' + Date.now();
+  window[callbackName] = function(data) {
+    document.getElementById('secret-loading').style.display = 'none';
+    const content = document.getElementById('secret-content');
+    if (!data || data.length === 0) {
+      content.innerHTML = '<p style="color:#4a4a4a;">Elyne n\'a pas encore répondu 👀</p>';
+    } else {
+      const d = data[data.length - 1];
+      content.innerHTML = `
+        <div style="font-size:0.88rem;color:#4a4a4a;line-height:2.2;">
+          <p>📅 <strong>Date :</strong> ${d.date || '—'}</p>
+          <p>1️⃣ <strong>En un mot :</strong> ${d.q1}</p>
+          <p>2️⃣ <strong>Plutôt… :</strong> ${d.q2}</p>
+          <p>3️⃣ <strong>Mon défaut :</strong> ${d.q3}</p>
+          <p>4️⃣ <strong>Du type… :</strong> ${d.q4}</p>
+          <p>5️⃣ <strong>Ma qualité :</strong> ${d.q5}</p>
+          <p>6️⃣ <strong>Ce qu'elle pense :</strong><br><em>${d.q6}</em></p>
+          <p>✅ <strong>Honnête à 100% ?</strong> ${d.honest}</p>
+        </div>`;
+    }
+    content.style.display = 'block';
+    delete window[callbackName];
+  };
+
+  const script = document.createElement('script');
+  script.src = GOOGLE_SCRIPT_URL + '?action=read&callback=' + callbackName;
+  script.onerror = () => {
+    document.getElementById('secret-loading').textContent = '❌ Impossible de charger les réponses.';
+  };
+  document.head.appendChild(script);
+}
 
   const panel = document.createElement('div');
   panel.id = 'secret-panel';

@@ -1,3 +1,4 @@
+cat > /mnt/user-data/outputs/elyne.html << 'ENDOFFILE'
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -7,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  
   body {
     background: linear-gradient(135deg, #ffe5ec 0%, #ffc2d1 100%);
     min-height: 100vh;
@@ -18,7 +18,6 @@
     padding: 40px 20px;
     overflow-x: hidden;
   }
-
   #confetti-canvas {
     position: fixed;
     top: 0; left: 0;
@@ -26,7 +25,6 @@
     pointer-events: none;
     z-index: 999;
   }
-
   .card {
     background: white;
     max-width: 600px;
@@ -38,49 +36,16 @@
     position: relative;
     margin-bottom: 30px;
   }
-
-  h1 {
-    font-family: 'Caveat', cursive;
-    font-size: 3.5rem;
-    color: #ff477e;
-    margin-bottom: 10px;
-  }
-
+  h1 { font-family: 'Caveat', cursive; font-size: 3.5rem; color: #ff477e; margin-bottom: 10px; }
   .age {
-    background: #ff758f;
-    color: white;
-    padding: 5px 15px;
-    border-radius: 50px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    display: inline-block;
-    margin-bottom: 25px;
+    background: #ff758f; color: white; padding: 5px 15px;
+    border-radius: 50px; font-size: 0.9rem; font-weight: 600;
+    display: inline-block; margin-bottom: 25px;
   }
-
-  .message {
-    font-size: 1.05rem;
-    line-height: 1.8;
-    color: #4a4a4a;
-    margin-bottom: 30px;
-    text-align: left;
-  }
-
+  .message { font-size: 1.05rem; line-height: 1.8; color: #4a4a4a; margin-bottom: 30px; text-align: left; }
   .message strong { color: #ff477e; }
-
-  .cake-box {
-    margin: 20px 0;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .hint-text {
-    font-size: 0.9rem;
-    color: #ff758f;
-    font-weight: 600;
-    margin-bottom: 20px;
-  }
-
+  .cake-box { margin: 20px 0; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
+  .hint-text { font-size: 0.9rem; color: #ff758f; font-weight: 600; margin-bottom: 20px; }
   .cake-svg-wrap {
     animation: cakeBounce 1.6s ease-in-out infinite;
     display: inline-block;
@@ -91,168 +56,70 @@
     45%       { transform: translateY(-12px) scale(1.04); }
     65%       { transform: translateY(-6px) scale(1.02); }
   }
-
   .flame { transform-origin: center bottom; }
   .glow { opacity: 0.25; }
-
-  .cake-svg-wrap.blown .flame  { display: none; }
-  .cake-svg-wrap.blown .glow   { display: none; }
-  .cake-svg-wrap.blown .wick   { opacity: 1; }
+  .cake-svg-wrap.blown .flame { display: none; }
+  .cake-svg-wrap.blown .glow  { display: none; }
+  .cake-svg-wrap.blown .wick  { opacity: 1; }
   .cake-svg-wrap.blown { animation: none; transform: scale(1); }
-
-  .blown-msg {
-    display: none;
-    font-size: 1rem;
-    color: #ff477e;
-    font-weight: 700;
-    margin-top: 8px;
-    animation: popIn 0.4s ease forwards;
-  }
+  .blown-msg { display: none; font-size: 1rem; color: #ff477e; font-weight: 700; margin-top: 8px; animation: popIn 0.4s ease forwards; }
   .cake-svg-wrap.blown ~ .blown-msg { display: block; }
-
   .smoke { display: none; transform-origin: center bottom; }
-  .cake-svg-wrap.blown .smoke {
-    display: block;
-    animation: smokeRise 1.8s ease-out forwards;
-  }
+  .cake-svg-wrap.blown .smoke { display: block; animation: smokeRise 1.8s ease-out forwards; }
   @keyframes smokeRise {
     0%   { opacity: 0.7; transform: translateY(0) scaleX(1); }
     100% { opacity: 0;   transform: translateY(-20px) scaleX(1.5); }
   }
-
   .quiz-section {
-    background: #fff0f3;
-    border-radius: 16px;
-    padding: 20px;
-    margin-top: 20px;
-    border: 2px dashed #ffb3c1;
-    text-align: left;
+    background: #fff0f3; border-radius: 16px; padding: 20px;
+    margin-top: 20px; border: 2px dashed #ffb3c1; text-align: left;
   }
-
-  .quiz-title {
-    font-size: 1.2rem;
-    color: #ff477e;
-    font-weight: 700;
-    margin-bottom: 15px;
-  }
-
+  .quiz-title { font-size: 1.2rem; color: #ff477e; font-weight: 700; margin-bottom: 15px; }
   .question-box {
-    margin-bottom: 20px;
-    background: white;
-    padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+    margin-bottom: 20px; background: white; padding: 15px;
+    border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.02);
   }
-
-  .question-box p {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #4a4a4a;
-    margin-bottom: 8px;
-  }
-
-  .rebus-hint {
-    font-size: 0.85rem;
-    color: #ff758f;
-    font-style: italic;
-    margin-bottom: 5px;
-  }
-
+  .question-box p { font-size: 0.95rem; font-weight: 600; color: #4a4a4a; margin-bottom: 8px; }
+  .rebus-hint { font-size: 0.85rem; color: #ff758f; font-style: italic; margin-bottom: 5px; }
   .quiz-input {
-    width: 100%;
-    padding: 10px 15px;
-    border: 2px solid #ffe5ec;
-    border-radius: 8px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.95rem;
-    outline: none;
-    transition: border-color 0.3s;
+    width: 100%; padding: 10px 15px; border: 2px solid #ffe5ec;
+    border-radius: 8px; font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem; outline: none; transition: border-color 0.3s;
   }
   .quiz-input:focus { border-color: #ff758f; }
-
   .btn {
-    background: #ff477e;
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 50px;
-    cursor: pointer;
+    background: #ff477e; color: white; border: none; padding: 12px 25px;
+    font-size: 1rem; font-weight: 600; border-radius: 50px; cursor: pointer;
     box-shadow: 0 5px 15px rgba(255, 71, 126, 0.3);
-    transition: transform 0.2s, background 0.2s;
-    width: 100%;
-    margin-top: 10px;
+    transition: transform 0.2s, background 0.2s; width: 100%; margin-top: 10px;
   }
   .btn:hover { background: #ff5c8a; transform: translateY(-2px); }
-
   .rebus-result-box {
-    display: none;
-    background: #fff0f3;
-    border: 2px solid #ff477e;
-    padding: 20px;
-    border-radius: 16px;
-    margin-top: 20px;
+    display: none; background: #fff0f3; border: 2px solid #ff477e;
+    padding: 20px; border-radius: 16px; margin-top: 20px;
     animation: popIn 0.5s ease forwards;
   }
-
   .rebus-phrase {
-    font-size: 1.4rem;
-    color: #ff477e;
-    font-weight: 700;
-    margin-bottom: 15px;
-    text-align: center;
-    font-family: 'Caveat', cursive;
-    letter-spacing: 1px;
+    font-size: 1.4rem; color: #ff477e; font-weight: 700; margin-bottom: 15px;
+    text-align: center; font-family: 'Caveat', cursive; letter-spacing: 1px;
   }
-
   .bonus-text {
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: #4a4a4a;
-    text-align: left;
-    border-top: 1px dashed #ffb3c1;
-    padding-top: 15px;
+    font-size: 0.95rem; line-height: 1.6; color: #4a4a4a;
+    text-align: left; border-top: 1px dashed #ffb3c1; padding-top: 15px;
   }
-
   @keyframes popIn {
     from { opacity: 0; transform: scale(0.9); }
     to   { opacity: 1; transform: scale(1); }
   }
-
-  .error-msg {
-    color: #e63946;
-    font-size: 0.85rem;
-    margin-top: 10px;
-    display: none;
-    font-weight: 600;
-    text-align: center;
-  }
-
-  /* ── Bandeau 🔒 ── */
+  .error-msg { color: #e63946; font-size: 0.85rem; margin-top: 10px; display: none; font-weight: 600; text-align: center; }
   .lock-banner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin: 10px auto 30px;
-    max-width: 600px;
-    background: white;
-    border: 2px dashed #ff758f;
-    border-radius: 16px;
-    padding: 14px 24px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    margin: 10px auto 30px; max-width: 600px; background: white;
+    border: 2px dashed #ff758f; border-radius: 16px; padding: 14px 24px;
     box-shadow: 0 4px 15px rgba(255,133,161,0.2);
   }
-  .lock-banner span {
-    font-size: 1rem;
-    font-weight: 700;
-    color: #ff477e;
-    letter-spacing: 0.5px;
-  }
-  .lock-banner .lock-icon {
-    font-size: 1.4rem;
-    animation: lockPulse 2s ease-in-out infinite;
-  }
+  .lock-banner span { font-size: 1rem; font-weight: 700; color: #ff477e; letter-spacing: 0.5px; }
+  .lock-banner .lock-icon { font-size: 1.4rem; animation: lockPulse 2s ease-in-out infinite; }
   @keyframes lockPulse {
     0%, 100% { transform: scale(1); }
     50%       { transform: scale(1.15); }
@@ -329,7 +196,6 @@
   <div class="quiz-section" id="quiz-area">
     <div class="quiz-title">🧩 Le Jeu du Rébus d'Anniversaire</div>
     <p style="font-size: 0.85rem; color: #4a4a4a; margin-bottom: 15px;">Réponds correctement à ces 6 questions pour décoder le message caché !</p>
-    
     <div class="question-box">
       <p>1. Quelle boisson chaude anglaise infuse dans une tasse ?</p>
       <p class="rebus-hint">(Indice phonétique : donne le son "T")</p>
@@ -357,7 +223,6 @@
       <p>6. Complète la ref (y'a ___ de panneaux ?)</p>
       <input type="text" id="text-pas" class="quiz-input" placeholder="Mot en 3 lettres">
     </div>
-
     <button class="btn" onclick="checkRebus()">Déchiffrer le rébus</button>
     <p class="error-msg" id="error-text">Certaines réponses bloquent le décodage du rébus, vérifie bien ! 🤔</p>
   </div>
@@ -376,7 +241,6 @@
     <div class="quiz-title">💬 Ton avis sur moi</div>
     <p style="font-size: 0.85rem; color: #ff477e; font-weight: 700; margin-bottom: 5px; font-style: italic;">⚠️ Il faut que l'avis soit le plus sincère possible pour valider les réponses.</p>
     <p style="font-size: 0.82rem; color: #4a4a4a; margin-bottom: 18px;">Réponds honnêtement — personne ne te juge ici 🙂</p>
-
     <div class="question-box">
       <p>1. Comment tu me décrirais en un mot ?</p>
       <input type="text" id="avis1" class="quiz-input" placeholder="Un seul mot...">
@@ -401,7 +265,6 @@
       <p>6. Que penses-tu de moi ? (dis tout 💬)</p>
       <textarea id="avis6" class="quiz-input" rows="4" placeholder="Exprime-toi librement..." style="resize:none; line-height:1.6;"></textarea>
     </div>
-
     <p style="font-size: 0.88rem; font-weight: 700; color: #4a4a4a; margin-top: 10px; margin-bottom: 8px; text-align:center;">Tu penses que t'as été honnête à 100 % ?</p>
     <div style="display:flex; gap:10px;">
       <button class="btn" onclick="submitAvis(true)"  style="background:#34d399;">✅ Oui, totalement !</button>
@@ -415,14 +278,12 @@
   </div>
 </div>
 
-<!-- Bandeau 🔒 visible -->
 <div class="lock-banner">
   <span class="lock-icon">🔒</span>
   <span>Débloquer la suite le 14/06/27</span>
 </div>
 
 <script>
-// ── REMPLACE CETTE URL PAR TON URL APPS SCRIPT ──
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby88erf7yginxTwHKoeAU-21_C5PPtieezlJyna2l7h2-AJpM5-ugEzm2h158G50BEgUw/exec";
 
 /* ── Confettis ── */
@@ -431,7 +292,6 @@ const ctx = canvas.getContext('2d');
 let particles = [];
 function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
 resize(); window.addEventListener('resize', resize);
-
 const COLORS = ['#ff477e','#ff758f','#ffccd5','#ffb3c1','#34d399','#fbbf24','#a78bfa','#60a5fa'];
 
 function triggerConfetti() {
@@ -528,15 +388,12 @@ function submitAvis(honest) {
     date: new Date().toLocaleString('fr-FR')
   };
 
-  // Envoi vers Google Sheets
-  if (GOOGLE_SCRIPT_URL !== "COLLE_TON_URL_ICI") {
-    fetch(GOOGLE_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    }).catch(() => {}); // silencieux si erreur réseau
-  }
+  fetch(GOOGLE_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  }).catch(() => {});
 
   document.getElementById('avis-area').style.display = 'none';
   const result = document.getElementById('avis-result');
@@ -571,11 +428,6 @@ function showSecretPanel() {
   const existing = document.getElementById('secret-panel');
   if (existing) { existing.remove(); return; }
 
-  if (GOOGLE_SCRIPT_URL === "COLLE_TON_URL_ICI") {
-    alert('⚙️ Configure d\'abord l\'URL Google Script !');
-    return;
-  }
-
   const panel = document.createElement('div');
   panel.id = 'secret-panel';
   panel.style.cssText = `
@@ -598,7 +450,6 @@ function showSecretPanel() {
   `;
   document.body.appendChild(panel);
 
-  // JSONP pour contourner le CORS
   const callbackName = 'easterEggCallback_' + Date.now();
   window[callbackName] = function(data) {
     document.getElementById('secret-loading').style.display = 'none';
@@ -630,57 +481,10 @@ function showSecretPanel() {
   };
   document.head.appendChild(script);
 }
-
-  const panel = document.createElement('div');
-  panel.id = 'secret-panel';
-  panel.style.cssText = `
-    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
-    background:white; border:3px solid #ff477e; border-radius:20px;
-    padding:30px; max-width:480px; width:90%; z-index:9999;
-    box-shadow:0 20px 60px rgba(255,71,126,0.3);
-    font-family:'Poppins',sans-serif; max-height:80vh; overflow-y:auto;
-    text-align:center;
-  `;
-  panel.innerHTML = `
-    <p style="color:#ff477e;font-weight:700;font-size:1rem;margin-bottom:15px;">🔐 Réponses d'Elyne</p>
-    <p id="secret-loading" style="color:#4a4a4a;font-size:0.9rem;">Chargement… ⏳</p>
-    <div id="secret-content" style="display:none;text-align:left;"></div>
-    <button onclick="document.getElementById('secret-panel').remove()" style="
-      margin-top:15px; background:#ff477e; color:white; border:none;
-      padding:10px 20px; border-radius:50px; cursor:pointer;
-      font-family:'Poppins',sans-serif; font-weight:600; width:100%;
-    ">Fermer 🔒</button>
-  `;
-  document.body.appendChild(panel);
-
-  // Récupère les données depuis Google Sheets
-  fetch(GOOGLE_SCRIPT_URL + "?action=read")
-    .then(r => r.json())
-    .then(data => {
-      document.getElementById('secret-loading').style.display = 'none';
-      const content = document.getElementById('secret-content');
-      if (!data || data.length === 0) {
-        content.innerHTML = '<p style="color:#4a4a4a;">Elyne n\'a pas encore répondu 👀</p>';
-      } else {
-        const d = data[data.length - 1]; // dernière réponse
-        content.innerHTML = `
-          <div style="font-size:0.88rem;color:#4a4a4a;line-height:2.2;">
-            <p>📅 <strong>Date :</strong> ${d.date || '—'}</p>
-            <p>1️⃣ <strong>En un mot :</strong> ${d.q1}</p>
-            <p>2️⃣ <strong>Plutôt… :</strong> ${d.q2}</p>
-            <p>3️⃣ <strong>Mon défaut :</strong> ${d.q3}</p>
-            <p>4️⃣ <strong>Du type… :</strong> ${d.q4}</p>
-            <p>5️⃣ <strong>Ma qualité :</strong> ${d.q5}</p>
-            <p>6️⃣ <strong>Ce qu'elle pense :</strong><br><em>${d.q6}</em></p>
-            <p>✅ <strong>Honnête à 100% ?</strong> ${d.honest}</p>
-          </div>`;
-      }
-      content.style.display = 'block';
-    })
-    .catch(() => {
-      document.getElementById('secret-loading').textContent = '❌ Impossible de charger les réponses.';
-    });
-}
 </script>
 </body>
 </html>
+ENDOFFILE
+Sortie
+
+exit code 0

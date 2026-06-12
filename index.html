@@ -67,18 +67,67 @@
 
   .message strong { color: #ff477e; }
 
-  /* ── Gâteau Interactif ── */
+  /* ── Gâteau Animé ── */
   .cake-box {
     margin: 20px 0;
     cursor: pointer;
-    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-  .cake-box:hover { transform: scale(1.05); }
   .hint-text {
     font-size: 0.9rem;
     color: #ff758f;
     font-weight: 600;
     margin-bottom: 20px;
+  }
+
+  /* SVG cake wrapper — pulse en boucle */
+  .cake-svg-wrap {
+    animation: cakeBounce 1.6s ease-in-out infinite;
+    display: inline-block;
+    filter: drop-shadow(0 8px 18px rgba(255,71,126,0.25));
+  }
+  @keyframes cakeBounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    45%       { transform: translateY(-12px) scale(1.04); }
+    65%       { transform: translateY(-6px) scale(1.02); }
+  }
+
+  /* flammes statiques */
+  .flame { transform-origin: center bottom; }
+
+  /* lueur statique */
+  .glow { opacity: 0.25; }
+
+  /* état soufflé */
+  .cake-svg-wrap.blown .flame  { display: none; }
+  .cake-svg-wrap.blown .glow   { display: none; }
+  .cake-svg-wrap.blown .wick   { opacity: 1; }
+  .cake-svg-wrap.blown { animation: none; transform: scale(1); }
+
+  .blown-msg {
+    display: none;
+    font-size: 1rem;
+    color: #ff477e;
+    font-weight: 700;
+    margin-top: 8px;
+    animation: popIn 0.4s ease forwards;
+  }
+  .cake-svg-wrap.blown ~ .blown-msg { display: block; }
+
+  /* fumée après soufflage */
+  .smoke {
+    display: none;
+    transform-origin: center bottom;
+  }
+  .cake-svg-wrap.blown .smoke {
+    display: block;
+    animation: smokeRise 1.8s ease-out forwards;
+  }
+  @keyframes smokeRise {
+    0%   { opacity: 0.7; transform: translateY(0) scaleX(1); }
+    100% { opacity: 0;   transform: translateY(-20px) scaleX(1.5); }
   }
 
   /* ── Section Rébus ── */
@@ -150,7 +199,6 @@
 
   .btn:hover { background: #ff5c8a; transform: translateY(-2px); }
 
-  /* ── Zone Résultat Rébus ── */
   .rebus-result-box {
     display: none;
     background: #fff0f3;
@@ -182,7 +230,7 @@
 
   @keyframes popIn {
     from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
+    to   { opacity: 1; transform: scale(1); }
   }
 
   .error-msg {
@@ -204,9 +252,82 @@
   <h1>Elyne</h1>
   <div class="age">Joyeux 14ème anniversaire !</div>
 
-  <div class="cake-box" onclick="triggerConfetti()">
-    <div style="font-size: 80px; margin-bottom: 10px;">🎂</div>
-    <p class="hint-text">Clique sur le gâteau pour souffler les bougies !</p>
+  <div class="cake-box" onclick="blowCandles()">
+    <!-- Gâteau SVG animé -->
+    <svg class="cake-svg-wrap" id="cakeSvg" width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+
+      <!-- Lueurs (derrière tout) -->
+      <g>
+        <circle class="glow" cx="38" cy="44" r="7" fill="#ffe066" opacity="0.35"/>
+        <circle class="glow" cx="58" cy="36" r="7" fill="#ffe066" opacity="0.35"/>
+        <circle class="glow" cx="80" cy="31" r="7" fill="#ffe066" opacity="0.35"/>
+        <circle class="glow" cx="102" cy="36" r="7" fill="#ffe066" opacity="0.35"/>
+        <circle class="glow" cx="122" cy="44" r="7" fill="#ffe066" opacity="0.35"/>
+      </g>
+
+      <!-- Étage bas -->
+      <rect x="14" y="98" width="132" height="46" rx="10" fill="#ff9ab5"/>
+      <rect x="14" y="98" width="132" height="12" rx="6" fill="#ffccd5"/>
+      <!-- déco pois -->
+      <circle cx="40" cy="118" r="5" fill="#fff" opacity="0.6"/>
+      <circle cx="65" cy="125" r="4" fill="#ff477e" opacity="0.5"/>
+      <circle cx="95" cy="116" r="5" fill="#fff" opacity="0.6"/>
+      <circle cx="120" cy="124" r="4" fill="#ff477e" opacity="0.5"/>
+
+      <!-- Étage haut -->
+      <rect x="30" y="68" width="100" height="34" rx="8" fill="#ff6fa3"/>
+      <rect x="30" y="68" width="100" height="10" rx="5" fill="#ffb3c1"/>
+      <!-- déco pois -->
+      <circle cx="55" cy="82" r="4" fill="#fff" opacity="0.6"/>
+      <circle cx="80" cy="88" r="4" fill="#ffe066" opacity="0.7"/>
+      <circle cx="105" cy="82" r="4" fill="#fff" opacity="0.6"/>
+
+      <!-- Bougies -->
+      <!-- bougie 1 -->
+      <rect x="34" y="52" width="8" height="18" rx="3" fill="#a78bfa"/>
+      <!-- bougie 2 -->
+      <rect x="54" y="44" width="8" height="26" rx="3" fill="#34d399"/>
+      <!-- bougie 3 -->
+      <rect x="76" y="39" width="8" height="31" rx="3" fill="#fbbf24"/>
+      <!-- bougie 4 -->
+      <rect x="98" y="44" width="8" height="26" rx="3" fill="#f87171"/>
+      <!-- bougie 5 -->
+      <rect x="118" y="52" width="8" height="18" rx="3" fill="#60a5fa"/>
+
+      <!-- Mèches -->
+      <g class="wick">
+        <line x1="38" y1="52" x2="38" y2="48" stroke="#555" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="58" y1="44" x2="58" y2="40" stroke="#555" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="80" y1="39" x2="80" y2="35" stroke="#555" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="102" y1="44" x2="102" y2="40" stroke="#555" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="122" y1="52" x2="122" y2="48" stroke="#555" stroke-width="1.5" stroke-linecap="round"/>
+      </g>
+
+      <!-- Flammes -->
+      <g>
+        <ellipse class="flame" cx="38" cy="44" rx="4" ry="6" fill="#ffe066"/>
+        <ellipse class="flame" cx="58" cy="36" rx="4" ry="6" fill="#ffa94d"/>
+        <ellipse class="flame" cx="80" cy="31" rx="4.5" ry="7" fill="#ffe066"/>
+        <ellipse class="flame" cx="102" cy="36" rx="4" ry="6" fill="#ffa94d"/>
+        <ellipse class="flame" cx="122" cy="44" rx="4" ry="6" fill="#ffe066"/>
+      </g>
+
+      <!-- Petits cœurs déco -->
+      <text x="12" y="60" font-size="12" opacity="0.5">🩷</text>
+      <text x="138" y="60" font-size="12" opacity="0.5">🩷</text>
+
+      <!-- Fumée (cachée par défaut) -->
+      <g>
+        <ellipse class="smoke" cx="38" cy="43" rx="3" ry="5" fill="#bbb" opacity="0.6"/>
+        <ellipse class="smoke" cx="58" cy="35" rx="3" ry="5" fill="#bbb" opacity="0.6"/>
+        <ellipse class="smoke" cx="80" cy="30" rx="3" ry="5" fill="#bbb" opacity="0.6"/>
+        <ellipse class="smoke" cx="102" cy="35" rx="3" ry="5" fill="#bbb" opacity="0.6"/>
+        <ellipse class="smoke" cx="122" cy="43" rx="3" ry="5" fill="#bbb" opacity="0.6"/>
+      </g>
+    </svg>
+
+    <div class="blown-msg">🎉 Vœu exaucé !</div>
+    <p class="hint-text" id="cakeHint">Clique sur le gâteau pour souffler les bougies !</p>
   </div>
 
   <div class="message">
@@ -252,34 +373,88 @@
   <div class="rebus-result-box" id="bonus-area">
     <p style="font-size: 0.9rem; color: #ff758f; font-weight: 600; text-transform: uppercase;">🎉 Rébus résolu ! Le message était :</p>
     <div class="rebus-phrase">"T'es géniale, ne changes surtout pas ;)"</div>
-    
     <div class="bonus-text">
       <p><strong>Petite note bonus :</strong><br>
       Je me doutes bien que des vêtements auraient été mieux que ça mais j'avais pas le temps ou et ce dont j'ai besoin pour t'en faire cadeau 😅. J'espère que cette petite surprise sur mesure te plaît quand même !</p>
     </div>
   </div>
+
+  <!-- ── Quiz "Ton avis sur moi" ── -->
+  <div class="quiz-section" id="avis-area" style="display:none; margin-top: 20px;">
+    <div class="quiz-title">💬 Ton avis sur moi</div>
+    <p style="font-size: 0.85rem; color: #ff477e; font-weight: 700; margin-bottom: 5px; font-style: italic;">⚠️ Il faut que l'avis soit le plus sincère possible pour valider les réponses.</p>
+    <p style="font-size: 0.82rem; color: #4a4a4a; margin-bottom: 18px;">Réponds honnêtement — personne ne te juge ici 🙂</p>
+
+    <div class="question-box">
+      <p>1. Comment tu me décrirais en un mot ?</p>
+      <input type="text" id="avis1" class="quiz-input" placeholder="Un seul mot...">
+    </div>
+
+    <div class="question-box">
+      <p>2. Tu penses que je suis plutôt…</p>
+      <input type="text" id="avis2" class="quiz-input" placeholder="Ton impression...">
+    </div>
+
+    <div class="question-box">
+      <p>3. Mon plus grand défaut selon toi ?</p>
+      <input type="text" id="avis3" class="quiz-input" placeholder="Sois honnête !">
+    </div>
+
+    <div class="question-box">
+      <p>4. Je suis plutôt du type…</p>
+      <input type="text" id="avis4" class="quiz-input" placeholder="Ce que tu ressens...">
+    </div>
+
+    <div class="question-box">
+      <p>5. Quelle est ma plus grande qualité ?</p>
+      <input type="text" id="avis5" class="quiz-input" placeholder="Ce qui te vient en tête...">
+    </div>
+
+    <div class="question-box" style="border: 2px solid #ffb3c1;">
+      <p>6. Que penses-tu de moi ? (dis tout 💬)</p>
+      <textarea id="avis6" class="quiz-input" rows="4" placeholder="Exprime-toi librement..." style="resize:none; line-height:1.6;"></textarea>
+    </div>
+
+    <p style="font-size: 0.88rem; font-weight: 700; color: #4a4a4a; margin-top: 10px; margin-bottom: 8px; text-align:center;">Tu penses que t'as été honnête à 100 % ?</p>
+    <div style="display:flex; gap:10px;">
+      <button class="btn" onclick="submitAvis(true)"  style="background:#34d399;">✅ Oui, totalement !</button>
+      <button class="btn" onclick="submitAvis(false)" style="background:#ff758f;">😅 Pas vraiment…</button>
+    </div>
+    <p class="error-msg" id="avis-error">Remplis toutes les cases d'abord 👀</p>
+  </div>
+
+  <!-- Résultat quiz avis -->
+  <div class="rebus-result-box" id="avis-result" style="margin-top:20px;">
+    <div id="avis-result-msg"></div>
+  </div>
+</div>
+
+<div style="text-align:center; margin-top: 10px; margin-bottom: 20px; color: #ff758f; font-size: 0.82rem; font-weight: 600; opacity: 0.7;">
+  🔒 Débloquer la suite le 14/06/27
 </div>
 
 <script>
-/* ── Moteur de Confettis ── */
+/* ── Confettis ── */
 const canvas = document.getElementById('confetti-canvas');
 const ctx = canvas.getContext('2d');
 let particles = [];
 function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
 resize(); window.addEventListener('resize', resize);
 
-const COLORS = ['#ff477e', '#ff758f', '#ffccd5', '#ffb3c1', '#34d399', '#fbbf24'];
+const COLORS = ['#ff477e','#ff758f','#ffccd5','#ffb3c1','#34d399','#fbbf24','#a78bfa','#60a5fa'];
 
 function triggerConfetti() {
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 120; i++) {
     particles.push({
-      x: canvas.width / 2 + (Math.random() - 0.5) * 200,
-      y: canvas.height * 0.4,
-      vx: (Math.random() - 0.5) * 6,
-      vy: (Math.random() - 0.8) * 8,
+      x: canvas.width / 2 + (Math.random() - 0.5) * 300,
+      y: canvas.height * 0.35,
+      vx: (Math.random() - 0.5) * 8,
+      vy: (Math.random() - 0.9) * 10,
       color: COLORS[Math.floor(Math.random() * COLORS.length)],
-      size: Math.random() * 6 + 4,
-      opacity: 1
+      size: Math.random() * 7 + 4,
+      opacity: 1,
+      rot: Math.random() * 360,
+      rotV: (Math.random() - 0.5) * 6
     });
   }
 }
@@ -291,17 +466,31 @@ function draw() {
     ctx.save();
     ctx.globalAlpha = p.opacity;
     ctx.fillStyle = p.color;
-    ctx.fillRect(p.x, p.y, p.size, p.size);
+    ctx.translate(p.x + p.size/2, p.y + p.size/2);
+    ctx.rotate(p.rot * Math.PI / 180);
+    ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
     ctx.restore();
-    p.x += p.vx; p.y += p.vy; p.vy += 0.1; p.opacity -= 0.005;
+    p.x += p.vx; p.y += p.vy;
+    p.vy += 0.12; p.opacity -= 0.004;
+    p.rot += p.rotV;
   }
   requestAnimationFrame(draw);
 }
 draw();
-
 setTimeout(triggerConfetti, 500);
 
-/* ── Gestion du Rébus ── */
+/* ── Souffler les bougies ── */
+let blown = false;
+function blowCandles() {
+  if (blown) return;
+  blown = true;
+  const svg = document.getElementById('cakeSvg');
+  svg.classList.add('blown');
+  document.getElementById('cakeHint').textContent = '🌬️ Pffff… bougies soufflées !';
+  triggerConfetti();
+}
+
+/* ── Rébus ── */
 function checkRebus() {
   const r1 = document.getElementById('q1').value.trim().toLowerCase();
   const r2 = document.getElementById('q2').value.trim().toLowerCase();
@@ -310,24 +499,113 @@ function checkRebus() {
   const r5 = document.getElementById('text-pas').value.trim().toLowerCase();
   const errorText = document.getElementById('error-text');
 
-  // Conditions de validation
   const cond1 = (r1 === "thé" || r1 === "the");
   const cond2 = (r2 === "géniale" || r2 === "geniale");
-  
-  // Accepte toutes les orthographes demandées pour le nœud
   const cond3 = (r3 === "ne" || r3 === "noeud" || r3 === "nœud" || r3 === "noeuds" || r3 === "nœuds" || r3 === "neux" || r3 === "neuds");
-  
   const cond4 = (r4 === "surtout");
   const cond5 = (r5 === "pas");
 
   if (cond1 && cond2 && cond3 && cond4 && cond5) {
     errorText.style.display = "none";
-    document.getElementById('quiz-area').style.display = "none"; 
-    document.getElementById('bonus-area').style.display = "block"; 
-    triggerConfetti(); 
+    document.getElementById('quiz-area').style.display = "none";
+    document.getElementById('bonus-area').style.display = "block";
+    triggerConfetti();
+    // Affiche le quiz avis après un délai
+    setTimeout(() => {
+      document.getElementById('avis-area').style.display = "block";
+      document.getElementById('avis-area').scrollIntoView({ behavior: 'smooth' });
+    }, 1200);
   } else {
     errorText.style.display = "block";
   }
+}
+
+/* ── Quiz avis ── */
+function submitAvis(honest) {
+  const fields = ['avis1','avis2','avis3','avis4','avis5','avis6'];
+  const vals = fields.map(id => document.getElementById(id).value.trim());
+  if (vals.some(v => v === '')) {
+    document.getElementById('avis-error').style.display = 'block';
+    return;
+  }
+  document.getElementById('avis-error').style.display = 'none';
+
+  // Stockage discret pour l'easter egg
+  window._avisData = {
+    q1: vals[0], q2: vals[1], q3: vals[2],
+    q4: vals[3], q5: vals[4], q6: vals[5],
+    honest: honest
+  };
+
+  document.getElementById('avis-area').style.display = 'none';
+  const result = document.getElementById('avis-result');
+  const msg    = document.getElementById('avis-result-msg');
+
+  if (honest) {
+    msg.innerHTML = `
+      <p style="font-size:0.9rem;color:#ff758f;font-weight:700;text-transform:uppercase;">☺️ Merci pour ta sincérité !</p>
+      <div class="rebus-phrase" style="margin-top:10px;">"Je l'apprécie vraiment 🥹"</div>
+      <div class="bonus-text">Ça compte beaucoup que t'aies joué le jeu honnêtement. Même si c'est dur à dire ou à écrire, c'est ce genre de sincérité qui rend les gens vrais — et toi t'es clairement quelqu'un de vrai ☺️</div>`;
+  } else {
+    msg.innerHTML = `
+      <p style="font-size:0.9rem;color:#ff758f;font-weight:700;text-transform:uppercase;">😄 Haha, au moins t'es honnête sur ça !</p>
+      <div class="rebus-phrase" style="margin-top:10px;">"C'est déjà bien 😂"</div>
+      <div class="bonus-text">Bon, c'est pas grave — même un avis pas à 100% sincère c'est mieux que rien. Et puis t'as quand même joué le jeu, donc… respect 🫶</div>`;
+  }
+
+  result.style.display = 'block';
+  triggerConfetti();
+  result.scrollIntoView({ behavior: 'smooth' });
+}
+
+/* ── Easter egg : tape "elyne" n'importe où ── */
+let eggBuffer = '';
+document.addEventListener('keydown', e => {
+  eggBuffer += e.key.toLowerCase();
+  if (eggBuffer.length > 5) eggBuffer = eggBuffer.slice(-5);
+  if (eggBuffer === 'elyne') {
+    showSecretPanel();
+    eggBuffer = '';
+  }
+});
+
+function showSecretPanel() {
+  const existing = document.getElementById('secret-panel');
+  if (existing) { existing.remove(); return; }
+
+  const d = window._avisData;
+  if (!d) {
+    alert('🔒 Elyne n\'a pas encore rempli le questionnaire !');
+    return;
+  }
+
+  const panel = document.createElement('div');
+  panel.id = 'secret-panel';
+  panel.style.cssText = `
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:white; border:3px solid #ff477e; border-radius:20px;
+    padding:30px; max-width:480px; width:90%; z-index:9999;
+    box-shadow:0 20px 60px rgba(255,71,126,0.3);
+    font-family:'Poppins',sans-serif; max-height:80vh; overflow-y:auto;
+  `;
+  panel.innerHTML = `
+    <p style="color:#ff477e;font-weight:700;font-size:1rem;margin-bottom:15px;">🔐 Réponses secrètes d'Elyne</p>
+    <div style="font-size:0.88rem;color:#4a4a4a;line-height:2;">
+      <p><strong>1. En un mot :</strong> ${d.q1}</p>
+      <p><strong>2. Plutôt… :</strong> ${d.q2}</p>
+      <p><strong>3. Mon défaut :</strong> ${d.q3}</p>
+      <p><strong>4. Du type… :</strong> ${d.q4}</p>
+      <p><strong>5. Ma qualité :</strong> ${d.q5}</p>
+      <p><strong>6. Ce qu'elle pense :</strong> ${d.q6}</p>
+      <p style="margin-top:10px;"><strong>Honnête à 100% ?</strong> ${d.honest ? '✅ Oui' : '😅 Non'}</p>
+    </div>
+    <button onclick="document.getElementById('secret-panel').remove()" style="
+      margin-top:15px; background:#ff477e; color:white; border:none;
+      padding:10px 20px; border-radius:50px; cursor:pointer;
+      font-family:'Poppins',sans-serif; font-weight:600; width:100%;
+    ">Fermer 🔒</button>
+  `;
+  document.body.appendChild(panel);
 }
 </script>
 </body>

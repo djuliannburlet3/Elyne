@@ -67,7 +67,6 @@
 
   .message strong { color: #ff477e; }
 
-  /* ── Gâteau Animé ── */
   .cake-box {
     margin: 20px 0;
     cursor: pointer;
@@ -82,7 +81,6 @@
     margin-bottom: 20px;
   }
 
-  /* SVG cake wrapper — pulse en boucle */
   .cake-svg-wrap {
     animation: cakeBounce 1.6s ease-in-out infinite;
     display: inline-block;
@@ -94,13 +92,9 @@
     65%       { transform: translateY(-6px) scale(1.02); }
   }
 
-  /* flammes statiques */
   .flame { transform-origin: center bottom; }
-
-  /* lueur statique */
   .glow { opacity: 0.25; }
 
-  /* état soufflé */
   .cake-svg-wrap.blown .flame  { display: none; }
   .cake-svg-wrap.blown .glow   { display: none; }
   .cake-svg-wrap.blown .wick   { opacity: 1; }
@@ -116,11 +110,7 @@
   }
   .cake-svg-wrap.blown ~ .blown-msg { display: block; }
 
-  /* fumée après soufflage */
-  .smoke {
-    display: none;
-    transform-origin: center bottom;
-  }
+  .smoke { display: none; transform-origin: center bottom; }
   .cake-svg-wrap.blown .smoke {
     display: block;
     animation: smokeRise 1.8s ease-out forwards;
@@ -130,7 +120,6 @@
     100% { opacity: 0;   transform: translateY(-20px) scaleX(1.5); }
   }
 
-  /* ── Section Rébus ── */
   .quiz-section {
     background: #fff0f3;
     border-radius: 16px;
@@ -179,7 +168,6 @@
     outline: none;
     transition: border-color 0.3s;
   }
-
   .quiz-input:focus { border-color: #ff758f; }
 
   .btn {
@@ -196,7 +184,6 @@
     width: 100%;
     margin-top: 10px;
   }
-
   .btn:hover { background: #ff5c8a; transform: translateY(-2px); }
 
   .rebus-result-box {
@@ -241,6 +228,35 @@
     font-weight: 600;
     text-align: center;
   }
+
+  /* ── Bandeau 🔒 ── */
+  .lock-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 10px auto 30px;
+    max-width: 600px;
+    background: white;
+    border: 2px dashed #ff758f;
+    border-radius: 16px;
+    padding: 14px 24px;
+    box-shadow: 0 4px 15px rgba(255,133,161,0.2);
+  }
+  .lock-banner span {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ff477e;
+    letter-spacing: 0.5px;
+  }
+  .lock-banner .lock-icon {
+    font-size: 1.4rem;
+    animation: lockPulse 2s ease-in-out infinite;
+  }
+  @keyframes lockPulse {
+    0%, 100% { transform: scale(1); }
+    50%       { transform: scale(1.15); }
+  }
 </style>
 </head>
 <body>
@@ -253,10 +269,7 @@
   <div class="age">Joyeux 14ème anniversaire !</div>
 
   <div class="cake-box" onclick="blowCandles()">
-    <!-- Gâteau SVG animé -->
     <svg class="cake-svg-wrap" id="cakeSvg" width="160" height="160" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
-
-      <!-- Lueurs (derrière tout) -->
       <g>
         <circle class="glow" cx="38" cy="44" r="7" fill="#ffe066" opacity="0.35"/>
         <circle class="glow" cx="58" cy="36" r="7" fill="#ffe066" opacity="0.35"/>
@@ -264,37 +277,22 @@
         <circle class="glow" cx="102" cy="36" r="7" fill="#ffe066" opacity="0.35"/>
         <circle class="glow" cx="122" cy="44" r="7" fill="#ffe066" opacity="0.35"/>
       </g>
-
-      <!-- Étage bas -->
       <rect x="14" y="98" width="132" height="46" rx="10" fill="#ff9ab5"/>
       <rect x="14" y="98" width="132" height="12" rx="6" fill="#ffccd5"/>
-      <!-- déco pois -->
       <circle cx="40" cy="118" r="5" fill="#fff" opacity="0.6"/>
       <circle cx="65" cy="125" r="4" fill="#ff477e" opacity="0.5"/>
       <circle cx="95" cy="116" r="5" fill="#fff" opacity="0.6"/>
       <circle cx="120" cy="124" r="4" fill="#ff477e" opacity="0.5"/>
-
-      <!-- Étage haut -->
       <rect x="30" y="68" width="100" height="34" rx="8" fill="#ff6fa3"/>
       <rect x="30" y="68" width="100" height="10" rx="5" fill="#ffb3c1"/>
-      <!-- déco pois -->
       <circle cx="55" cy="82" r="4" fill="#fff" opacity="0.6"/>
       <circle cx="80" cy="88" r="4" fill="#ffe066" opacity="0.7"/>
       <circle cx="105" cy="82" r="4" fill="#fff" opacity="0.6"/>
-
-      <!-- Bougies -->
-      <!-- bougie 1 -->
       <rect x="34" y="52" width="8" height="18" rx="3" fill="#a78bfa"/>
-      <!-- bougie 2 -->
       <rect x="54" y="44" width="8" height="26" rx="3" fill="#34d399"/>
-      <!-- bougie 3 -->
       <rect x="76" y="39" width="8" height="31" rx="3" fill="#fbbf24"/>
-      <!-- bougie 4 -->
       <rect x="98" y="44" width="8" height="26" rx="3" fill="#f87171"/>
-      <!-- bougie 5 -->
       <rect x="118" y="52" width="8" height="18" rx="3" fill="#60a5fa"/>
-
-      <!-- Mèches -->
       <g class="wick">
         <line x1="38" y1="52" x2="38" y2="48" stroke="#555" stroke-width="1.5" stroke-linecap="round"/>
         <line x1="58" y1="44" x2="58" y2="40" stroke="#555" stroke-width="1.5" stroke-linecap="round"/>
@@ -302,8 +300,6 @@
         <line x1="102" y1="44" x2="102" y2="40" stroke="#555" stroke-width="1.5" stroke-linecap="round"/>
         <line x1="122" y1="52" x2="122" y2="48" stroke="#555" stroke-width="1.5" stroke-linecap="round"/>
       </g>
-
-      <!-- Flammes -->
       <g>
         <ellipse class="flame" cx="38" cy="44" rx="4" ry="6" fill="#ffe066"/>
         <ellipse class="flame" cx="58" cy="36" rx="4" ry="6" fill="#ffa94d"/>
@@ -311,12 +307,8 @@
         <ellipse class="flame" cx="102" cy="36" rx="4" ry="6" fill="#ffa94d"/>
         <ellipse class="flame" cx="122" cy="44" rx="4" ry="6" fill="#ffe066"/>
       </g>
-
-      <!-- Petits cœurs déco -->
       <text x="12" y="60" font-size="10" opacity="0.5">🩷</text>
       <text x="138" y="60" font-size="12" opacity="0.5">🩷</text>
-
-      <!-- Fumée (cachée par défaut) -->
       <g>
         <ellipse class="smoke" cx="38" cy="43" rx="3" ry="5" fill="#bbb" opacity="0.6"/>
         <ellipse class="smoke" cx="58" cy="35" rx="3" ry="5" fill="#bbb" opacity="0.6"/>
@@ -325,7 +317,6 @@
         <ellipse class="smoke" cx="122" cy="43" rx="3" ry="5" fill="#bbb" opacity="0.6"/>
       </g>
     </svg>
-
     <div class="blown-msg">🎉 Vœu exaucé !</div>
     <p class="hint-text" id="cakeHint">Clique sur le gâteau pour souffler les bougies !</p>
   </div>
@@ -337,36 +328,31 @@
 
   <div class="quiz-section" id="quiz-area">
     <div class="quiz-title">🧩 Le Jeu du Rébus d'Anniversaire</div>
-    <p style="font-size: 0.85rem; color: #4a4a4a; margin-bottom: 15px;">Réponds correctement à ces 5 questions pour décoder le message caché !</p>
+    <p style="font-size: 0.85rem; color: #4a4a4a; margin-bottom: 15px;">Réponds correctement à ces 6 questions pour décoder le message caché !</p>
     
     <div class="question-box">
       <p>1. Quelle boisson chaude anglaise infuse dans une tasse ?</p>
       <p class="rebus-hint">(Indice phonétique : donne le son "T")</p>
       <input type="text" id="q1" class="quiz-input" placeholder="Ex: café, lait...">
     </div>
-
     <div class="question-box">
       <p>2. Comment dit-on "formidable" ou "exceptionnelle" au féminin ?</p>
       <p class="rebus-hint">(Indice : commence par "géni...")</p>
       <input type="text" id="q2" class="quiz-input" placeholder="Au féminin">
     </div>
-
     <div class="question-box">
       <p>3. Comment appelle-t-on cet objet "🎀" ?</p>
       <input type="text" id="q3" class="quiz-input" placeholder="Le petit mot">
     </div>
-
     <div class="question-box">
-  <p>4. Quel verbe forme le rébus : 🎵 chant + ✈️ jet ?</p>
-  <p class="rebus-hint">(Réponse à l'infinitif)</p>
-  <input type="text" id="q4" class="quiz-input" placeholder="verbe ;)">
-</div>
-   
-   <div class="question-box">
+      <p>4. Quel verbe forme le rébus : 🎵 chant + ✈️ jet ?</p>
+      <p class="rebus-hint">(Réponse à l'infinitif)</p>
+      <input type="text" id="q4" class="quiz-input" placeholder="verbe ;)">
+    </div>
+    <div class="question-box">
       <p>5. Quel est le contraire exact de "sur rien" ?</p>
       <input type="text" id="text-surtout" class="quiz-input" placeholder="Le contraire de partout">
     </div>
-
     <div class="question-box">
       <p>6. Complète la ref (y'a ___ de panneaux ?)</p>
       <input type="text" id="text-pas" class="quiz-input" placeholder="Mot en 3 lettres">
@@ -385,7 +371,7 @@
     </div>
   </div>
 
-  <!-- ── Quiz "Ton avis sur moi" ── -->
+  <!-- Quiz avis -->
   <div class="quiz-section" id="avis-area" style="display:none; margin-top: 20px;">
     <div class="quiz-title">💬 Ton avis sur moi</div>
     <p style="font-size: 0.85rem; color: #ff477e; font-weight: 700; margin-bottom: 5px; font-style: italic;">⚠️ Il faut que l'avis soit le plus sincère possible pour valider les réponses.</p>
@@ -395,27 +381,22 @@
       <p>1. Comment tu me décrirais en un mot ?</p>
       <input type="text" id="avis1" class="quiz-input" placeholder="Un seul mot...">
     </div>
-
     <div class="question-box">
       <p>2. Tu penses que je suis plutôt…</p>
       <input type="text" id="avis2" class="quiz-input" placeholder="Ton impression...">
     </div>
-
     <div class="question-box">
       <p>3. Mon plus grand défaut selon toi ?</p>
       <input type="text" id="avis3" class="quiz-input" placeholder="Sois honnête !">
     </div>
-
     <div class="question-box">
       <p>4. Je suis plutôt du type…</p>
       <input type="text" id="avis4" class="quiz-input" placeholder="Ce que tu ressens...">
     </div>
-
     <div class="question-box">
       <p>5. Quelle est ma plus grande qualité ?</p>
       <input type="text" id="avis5" class="quiz-input" placeholder="Ce qui te vient en tête...">
     </div>
-
     <div class="question-box" style="border: 2px solid #ffb3c1;">
       <p>6. Que penses-tu de moi ? (dis tout 💬)</p>
       <textarea id="avis6" class="quiz-input" rows="4" placeholder="Exprime-toi librement..." style="resize:none; line-height:1.6;"></textarea>
@@ -429,17 +410,21 @@
     <p class="error-msg" id="avis-error">Remplis toutes les cases d'abord 👀</p>
   </div>
 
-  <!-- Résultat quiz avis -->
   <div class="rebus-result-box" id="avis-result" style="margin-top:20px;">
     <div id="avis-result-msg"></div>
   </div>
 </div>
 
-<div style="text-align:center; margin-top: 10px; margin-bottom: 20px; color: #ff758f; font-size: 0.82rem; font-weight: 600; opacity: 0.7;">
-  🔒 Débloquer la suite le 14/06/27
+<!-- Bandeau 🔒 visible -->
+<div class="lock-banner">
+  <span class="lock-icon">🔒</span>
+  <span>Débloquer la suite le 14/06/27</span>
 </div>
 
 <script>
+// ── REMPLACE CETTE URL PAR TON URL APPS SCRIPT ──
+const GOOGLE_SCRIPT_URL = "COLLE_TON_URL_ICI";
+
 /* ── Confettis ── */
 const canvas = document.getElementById('confetti-canvas');
 const ctx = canvas.getContext('2d');
@@ -485,13 +470,12 @@ function draw() {
 draw();
 setTimeout(triggerConfetti, 500);
 
-/* ── Souffler les bougies ── */
+/* ── Bougies ── */
 let blown = false;
 function blowCandles() {
   if (blown) return;
   blown = true;
-  const svg = document.getElementById('cakeSvg');
-  svg.classList.add('blown');
+  document.getElementById('cakeSvg').classList.add('blown');
   document.getElementById('cakeHint').textContent = '🌬️ Pffff… bougies soufflées !';
   triggerConfetti();
 }
@@ -499,11 +483,11 @@ function blowCandles() {
 /* ── Rébus ── */
 function checkRebus() {
   const r1 = document.getElementById('q1').value.trim().toLowerCase();
-const r2 = document.getElementById('q2').value.trim().toLowerCase();
-const r3 = document.getElementById('q3').value.trim().toLowerCase();
-const r4 = document.getElementById('q4').value.trim().toLowerCase();
-const r5 = document.getElementById('text-surtout').value.trim().toLowerCase();
-const r6 = document.getElementById('text-pas').value.trim().toLowerCase();
+  const r2 = document.getElementById('q2').value.trim().toLowerCase();
+  const r3 = document.getElementById('q3').value.trim().toLowerCase();
+  const r4 = document.getElementById('q4').value.trim().toLowerCase();
+  const r5 = document.getElementById('text-surtout').value.trim().toLowerCase();
+  const r6 = document.getElementById('text-pas').value.trim().toLowerCase();
   const errorText = document.getElementById('error-text');
 
   const cond1 = (r1 === "thé" || r1 === "the");
@@ -518,7 +502,6 @@ const r6 = document.getElementById('text-pas').value.trim().toLowerCase();
     document.getElementById('quiz-area').style.display = "none";
     document.getElementById('bonus-area').style.display = "block";
     triggerConfetti();
-    // Affiche le quiz avis après un délai
     setTimeout(() => {
       document.getElementById('avis-area').style.display = "block";
       document.getElementById('avis-area').scrollIntoView({ behavior: 'smooth' });
@@ -538,16 +521,26 @@ function submitAvis(honest) {
   }
   document.getElementById('avis-error').style.display = 'none';
 
-  // Stockage discret pour l'easter egg
-  window._avisData = {
+  const data = {
     q1: vals[0], q2: vals[1], q3: vals[2],
     q4: vals[3], q5: vals[4], q6: vals[5],
-    honest: honest
+    honest: honest ? "Oui" : "Non",
+    date: new Date().toLocaleString('fr-FR')
   };
+
+  // Envoi vers Google Sheets
+  if (GOOGLE_SCRIPT_URL !== "COLLE_TON_URL_ICI") {
+    fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    }).catch(() => {}); // silencieux si erreur réseau
+  }
 
   document.getElementById('avis-area').style.display = 'none';
   const result = document.getElementById('avis-result');
-  const msg    = document.getElementById('avis-result-msg');
+  const msg = document.getElementById('avis-result-msg');
 
   if (honest) {
     msg.innerHTML = `
@@ -566,24 +559,21 @@ function submitAvis(honest) {
   result.scrollIntoView({ behavior: 'smooth' });
 }
 
-/* ── Easter egg : tape "elyne" n'importe où ── */
+/* ── Easter egg : tape "elyne" ── */
 let eggBuffer = '';
 document.addEventListener('keydown', e => {
   eggBuffer += e.key.toLowerCase();
   if (eggBuffer.length > 5) eggBuffer = eggBuffer.slice(-5);
-  if (eggBuffer === 'elyne') {
-    showSecretPanel();
-    eggBuffer = '';
-  }
+  if (eggBuffer === 'elyne') { showSecretPanel(); eggBuffer = ''; }
 });
 
 function showSecretPanel() {
   const existing = document.getElementById('secret-panel');
   if (existing) { existing.remove(); return; }
 
-  const d = window._avisData;
-  if (!d) {
-    alert('🔒 Elyne n\'a pas encore rempli le questionnaire !');
+  // Chargement depuis Google Sheets via Apps Script
+  if (GOOGLE_SCRIPT_URL === "COLLE_TON_URL_ICI") {
+    alert('⚙️ Configure d\'abord l\'URL Google Script !');
     return;
   }
 
@@ -595,18 +585,12 @@ function showSecretPanel() {
     padding:30px; max-width:480px; width:90%; z-index:9999;
     box-shadow:0 20px 60px rgba(255,71,126,0.3);
     font-family:'Poppins',sans-serif; max-height:80vh; overflow-y:auto;
+    text-align:center;
   `;
   panel.innerHTML = `
-    <p style="color:#ff477e;font-weight:700;font-size:1rem;margin-bottom:15px;">🔐 Réponses secrètes d'Elyne</p>
-    <div style="font-size:0.88rem;color:#4a4a4a;line-height:2;">
-      <p><strong>1. En un mot :</strong> ${d.q1}</p>
-      <p><strong>2. Plutôt… :</strong> ${d.q2}</p>
-      <p><strong>3. Mon défaut :</strong> ${d.q3}</p>
-      <p><strong>4. Du type… :</strong> ${d.q4}</p>
-      <p><strong>5. Ma qualité :</strong> ${d.q5}</p>
-      <p><strong>6. Ce qu'elle pense :</strong> ${d.q6}</p>
-      <p style="margin-top:10px;"><strong>Honnête à 100% ?</strong> ${d.honest ? '✅ Oui' : '😅 Non'}</p>
-    </div>
+    <p style="color:#ff477e;font-weight:700;font-size:1rem;margin-bottom:15px;">🔐 Réponses d'Elyne</p>
+    <p id="secret-loading" style="color:#4a4a4a;font-size:0.9rem;">Chargement… ⏳</p>
+    <div id="secret-content" style="display:none;text-align:left;"></div>
     <button onclick="document.getElementById('secret-panel').remove()" style="
       margin-top:15px; background:#ff477e; color:white; border:none;
       padding:10px 20px; border-radius:50px; cursor:pointer;
@@ -614,6 +598,34 @@ function showSecretPanel() {
     ">Fermer 🔒</button>
   `;
   document.body.appendChild(panel);
+
+  // Récupère les données depuis Google Sheets
+  fetch(GOOGLE_SCRIPT_URL + "?action=read")
+    .then(r => r.json())
+    .then(data => {
+      document.getElementById('secret-loading').style.display = 'none';
+      const content = document.getElementById('secret-content');
+      if (!data || data.length === 0) {
+        content.innerHTML = '<p style="color:#4a4a4a;">Elyne n\'a pas encore répondu 👀</p>';
+      } else {
+        const d = data[data.length - 1]; // dernière réponse
+        content.innerHTML = `
+          <div style="font-size:0.88rem;color:#4a4a4a;line-height:2.2;">
+            <p>📅 <strong>Date :</strong> ${d.date || '—'}</p>
+            <p>1️⃣ <strong>En un mot :</strong> ${d.q1}</p>
+            <p>2️⃣ <strong>Plutôt… :</strong> ${d.q2}</p>
+            <p>3️⃣ <strong>Mon défaut :</strong> ${d.q3}</p>
+            <p>4️⃣ <strong>Du type… :</strong> ${d.q4}</p>
+            <p>5️⃣ <strong>Ma qualité :</strong> ${d.q5}</p>
+            <p>6️⃣ <strong>Ce qu'elle pense :</strong><br><em>${d.q6}</em></p>
+            <p>✅ <strong>Honnête à 100% ?</strong> ${d.honest}</p>
+          </div>`;
+      }
+      content.style.display = 'block';
+    })
+    .catch(() => {
+      document.getElementById('secret-loading').textContent = '❌ Impossible de charger les réponses.';
+    });
 }
 </script>
 </body>
